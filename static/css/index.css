@@ -1,5 +1,5 @@
 :root {
-    --nav-width: 10vw;
+    --nav-width: 20vw;
     --theme-color-primary: rgba(70, 115, 200, 255);
     --theme-color-secondary: #0a244a;
 }
@@ -50,7 +50,7 @@ body {
 
 .nav-items li {
     padding-top: 10px;
-    height: 40px;
+    height: 60px;
 }
 
 .nav-items button {
@@ -101,6 +101,7 @@ body {
     overflow: hidden;
     gap: 1rem;
     align-items: center;
+    padding-bottom: 10px;
 
 }
 
@@ -109,6 +110,15 @@ body {
 }
 
 .stat-box>span {
-    text-decoration: underline;
+    font-family: 'Courier New', Courier, monospace;
+    font-style: oblique;
+    font-weight: 600;
+    text-decoration: dashed;
     font-size: 25px;
+    flex: 1;
+    background: white;
+    /* darker shade than sidebar */
+    border-radius: 6px;
+    color: black;
+    padding: 5px;
 }
