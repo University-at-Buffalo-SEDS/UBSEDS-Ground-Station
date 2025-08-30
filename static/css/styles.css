@@ -1,11 +1,28 @@
+:root {
+  --top-bar-height: 5vh;
+}
+
 body {
   color: black;
   background-color: #040f13 !important;
 }
 
+.navbar {
+  height: 100vh;
+  width: var(--nav-width);
+  list-style: none;
+  background-color: #0a244a;
+  position: fixed;
+}
+
+.logo-container {
+  flex-grow: 1;
+}
+
 .logo {
   display: inline-block;
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px;
+  /* Adjust the margin as needed */
   width: auto;
   height: 3rem;
   margin-top: 10px;
@@ -16,7 +33,7 @@ body {
 }
 
 #header {
-  background-color: #0a244a; 
+  background-color: #0a244a;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   margin-bottom: 15px;
@@ -37,7 +54,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  max-height: 4rem; 
+  max-height: 4rem;
   width: 100px;
 }
 
@@ -58,9 +75,9 @@ body {
   width: 100%;
 }
 
-.chart-container.altitude{
-    height: 100%; 
-    width: 100%;
+.chart-container.altitude {
+  height: 100%;
+  width: 100%;
 }
 
 .chart-container.velocity {
@@ -79,8 +96,8 @@ body {
   background-color: #0a244a;
   color: white;
   font-weight: bold !important;
-  font-size: 16px !important; 
-} 
+  font-size: 16px !important;
+}
 
 .gauge-container {
   background-color: white;
@@ -104,4 +121,3 @@ body {
   height: 100%;
   width: 100%;
 }
-

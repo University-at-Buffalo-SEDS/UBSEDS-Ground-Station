@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UB SEDS Ground Station</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/css/ol.min.css">
+
+  <script src="../static/js/socket.io.js"></script>
+  <script src="../static/js/chart.umd.js"></script>
+  <script src="../static/js/justgage.js"></script>
+  <script src="../static/js/raphael-2.1.4.min.js"></script>
+  <script src="../static/js/ol.min.js"></script>
+  <script src="../static/js/three.min.js"></script>
+  <script src="../static/js/OBJLoader.js"></script>
+  <script src="../static/js/OrbitControls.js"></script>
+</head>
+
+<body>
+  <!--TOP BAR-->
+  <div class="container-fluid">
+    <div class=row id="header">
+      <div class="col-md-4">
+        <img src="../static/img/logo.png" class="logo" alt="logo">
+        <img src="../static/img/ground-station-text.png" class="ground-station-text" alt="Ground Station">
+      </div>
+      <div class="col-md-8">
+        <div class="row justify-content-end">
+          <div class="col-md-auto">
+            <button type="button" class="test-button btn-primary btn-lg ejection">Ejection</button>
+          </div>
+          <div class="col-md-auto">
+            <button type="button" class="test-button btn-primary btn-lg reefing">Reefing</button>
+          </div>
+          <div class="col-md-auto">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Status</h5>
+                <p class="card-text text-center">Operational</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-auto">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Phase</h5>
+                <p id="phase" class="card-text text-center">-</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-auto">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Time</h5>
+                <p id="time" class="card-text text-center">-</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-auto">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Voltage</h5>
+                <p id="voltage" class="card-text text-center">-</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-auto">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Ping</h5>
+                <p id="ping" class="card-text text-center">-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid" id="telemetryContainer">
+    <div class="row" style="height: 80vh;">
+      <div class="col-md-3">
+        <div class="chart-container accel">
+          <canvas id="accelChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+        <div class="chart-container velocity">
+          <canvas id="velocityChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="chart-container altitude">
+          <canvas id="altitudeChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row"">
+          <div class=" col-md-6">
+          <div class="gauge-container">
+            <div id="temperatureGauge"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="gauge-container">
+            <div id="pressureGauge"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row raw-data" style="height: 16%;">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">Raw Acc-X</th>
+                <th class="text-center">Raw Acc-Y</th>
+                <th class="text-center">Raw Acc-Z</th>
+                <th class="text-center">Raw Alt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="raw-acc-x" class="text-center">-</td>
+                <td id="raw-acc-y" class="text-center">-</td>
+                <td id="raw-acc-z" class="text-center">-</td>
+                <td id="raw-alt" class="text-center">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row" style="height: 52.5%;">
+        <div id="rocket-model" class="rocket-model"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <div class="container-fluid" id="mapContainer" style="display: none; height: 80vh;"></div>
+  
+  <!--BOTTOM BAR-->
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-auto">
+        <button class="btn map-button" onclick="toggleTelemetry()">Map</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../static/js/index.js"></script>
+</body>
+
+</html>
