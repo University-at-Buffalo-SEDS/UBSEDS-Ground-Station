@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UB SEDS Ground Station</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/common.css">
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
 
 <body>
-    <script src="../static/js/index.js"></script>
+    <script src="../static/js/socket.io.js"></script>
 
     <div class="navbar">
         <img src=../static/img/logo.png class="logo noselect">
@@ -38,7 +39,7 @@
         <ul class="nav-stats">
             <li class="stat-box">
                 <i class="fa fa-globe"></i>
-                <span class="stat-value" id="voltage-stat">Online</span>
+                <span class="stat-value" id="status-stat">Online</span>
             </li>
             <li class="stat-box">
                 <i class="fa fa-bolt"></i>
@@ -46,15 +47,48 @@
             </li>
             <li class="stat-box">
                 <i class="fa fa-signal"></i>
-                <span class="stat-value" id="voltage-stat">212 ms</span>
+                <span class="stat-value" id="ping-stat">212 ms</span>
             </li>
             <li class="stat-box">
                 <i class="fa fa-clock-o"></i>
 
-                <span class="stat-value" id="voltage-stat">30 s</span>
+                <span class="stat-value" id="uptime-stat">30 s</span>
             </li>
         </ul>
+        <script>document.querySelectorAll(".nav-stats li").forEach((item, i) => { item.style.setProperty("--i", i + 1); })</script>
     </div>
+
+    <div class="page-content">
+        <div id="control-container"></div>
+        <div id="telemetry-container">
+            <div class="data-section">
+                <h1 class="section-title">Overview</h1>
+                <div class="data-section-content da-fb">
+                    <div class="data-block">
+                        <h1 class="data-block-title">Status</h1>
+                        <span class="data-block-value">Online</span>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">Phase</h1>
+                        <span class="data-block-value">Ignition</span>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">Temperature</h1>
+                        <div class="gauge-container">
+                            <div id="temperature-gauge"></div>
+                        </div>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">Pressure</h1>
+                        <div class="gauge-container">
+                            <div id="pressure-gauge"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../static/js/index.js"></script>
 
 </body>
 
