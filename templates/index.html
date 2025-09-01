@@ -7,6 +7,7 @@
     <title>UB SEDS Ground Station</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/gauge.css">
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
 
@@ -73,15 +74,25 @@
                         <span class="data-block-value">Ignition</span>
                     </div>
                     <div class="data-block">
-                        <h1 class="data-block-title">Temperature</h1>
                         <div class="gauge-container">
-                            <div id="temperature-gauge"></div>
+                            <div class="gauge-background"></div>
+                            <div class="gauge-center"></div>
+                            <div class="gauge-fill"></div>
+                            <div class="gauge-data">
+                                <h1>20°C</h1>
+                                Temperature
+                            </div>
                         </div>
                     </div>
                     <div class="data-block">
-                        <h1 class="data-block-title">Pressure</h1>
                         <div class="gauge-container">
-                            <div id="pressure-gauge"></div>
+                            <div class="gauge-background"></div>
+                            <div class="gauge-center"></div>
+                            <div class="gauge-fill"></div>
+                            <div class="gauge-data">
+                                <h1>101 kPA</h1>
+                                Pressure
+                            </div>
                         </div>
                     </div>
                 </div>
