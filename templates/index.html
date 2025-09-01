@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="../static/css/common.css">
     <link rel="stylesheet" href="../static/css/gauge.css">
     <link rel="stylesheet" href="../static/css/index.css">
+
+    <script src="../static/js/three.min.js"></script>
+    <script src="../static/js/OrbitControls.js"></script>
+    <script src="../static/js/OBJLoader.js"></script>
+
 </head>
 
 <body>
@@ -60,9 +65,9 @@
     </div>
 
     <div class="page-content">
-        <div id="control-container"></div>
-        <div id="telemetry-container">
-            <div class="data-section shadow-light">
+        <div class="content-container" style="display:none;" id="control-container"></div>
+        <div class="content-container" id="telemetry-container">
+            <div class="data-section overview shadow-light">
                 <div class="data-section-content da-fb">
                     <div class="data-block">
                         <h1 class="data-block-title">Status</h1>
@@ -100,17 +105,23 @@
                     </div>
                 </div>
             </div>
-            <div class="data-section da-fb shadow-light">
+            <div class="data-section charts da-fb shadow-light">
                 <div class="chart-container shadow-light">
                     <canvas id="acceleration-chart"></canvas>
                 </div>
                 <div class="chart-container shadow-light">
                     <canvas id="velocity-chart"></canvas>
                 </div>
+            </div>
+            <div class="data-section rocket-model da-fb shadow-light">
+                <div class="chart-container shadow-light">
+                    <div id="rocket-model"></div>
+                </div>
+            </div>
+            <div class="data-section alt-chart da-fb shadow-light">
                 <div class="chart-container shadow-light">
                     <canvas id="altitude-chart"></canvas>
                 </div>
-
             </div>
         </div>
     </div>

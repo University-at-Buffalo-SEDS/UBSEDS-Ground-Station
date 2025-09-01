@@ -1,3 +1,19 @@
+function ChartObj(chart, data, timeData) {
+  this.chart = chart;
+  this.data = data;
+  this.timeData = timeData;
+
+  this.updateChart = function(dataPoint, timeDataPoint) {
+    this.data.push(dataPoint);
+    this.timeData.push(timeDataPoint);
+
+    this.chart.data.labels = this.timeData;
+    this.chart.data.datasets[0].data = this.data;
+    
+    this.chart.update();
+  }
+}
+
 // Function to create charts
 function createChart(canvasId, label, yLabel) {
   let data = [];
@@ -39,9 +55,9 @@ function createChart(canvasId, label, yLabel) {
           text: label + ' vs Time' // Set the title text
         }
       },
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
     }
   });
 
-  return { data, timeData, chart };
+  return new ChartObj(chart, data, timeData);
 }

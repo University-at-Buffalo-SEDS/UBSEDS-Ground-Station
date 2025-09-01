@@ -13,13 +13,12 @@
 }
 
 .chart-container {
-    height: 300px;
     flex: 1;
     border: 2px solid gray;
 }
 
 .data-section {
-    margin-bottom: 10px;
+    flex: 1;
     padding: 20px;
     background-color: white;
 }
