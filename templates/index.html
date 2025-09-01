@@ -62,16 +62,19 @@
     <div class="page-content">
         <div id="control-container"></div>
         <div id="telemetry-container">
-            <div class="data-section">
-                <h1 class="section-title">Overview</h1>
+            <div class="data-section shadow-light">
                 <div class="data-section-content da-fb">
                     <div class="data-block">
                         <h1 class="data-block-title">Status</h1>
-                        <span class="data-block-value">Online</span>
+                        <p class="data-block-value">Online</p>
                     </div>
                     <div class="data-block">
                         <h1 class="data-block-title">Phase</h1>
-                        <span class="data-block-value">Ignition</span>
+                        <p class="data-block-value">Ignition</p>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">Distance</h1>
+                        <p class="data-block-value">200 m</p>
                     </div>
                     <div class="data-block">
                         <div class="gauge-container">
@@ -97,8 +100,23 @@
                     </div>
                 </div>
             </div>
+            <div class="data-section da-fb shadow-light">
+                <div class="chart-container shadow-light">
+                    <canvas id="acceleration-chart"></canvas>
+                </div>
+                <div class="chart-container shadow-light">
+                    <canvas id="velocity-chart"></canvas>
+                </div>
+                <div class="chart-container shadow-light">
+                    <canvas id="altitude-chart"></canvas>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/chart.umd.min.js"></script>
     <script src="../static/js/index.js"></script>
 
 </body>

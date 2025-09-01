@@ -38,7 +38,8 @@ function createChart(canvasId, label, yLabel) {
           display: true,
           text: label + ' vs Time' // Set the title text
         }
-      }
+      },
+      maintainAspectRatio: false
     }
   });
 
