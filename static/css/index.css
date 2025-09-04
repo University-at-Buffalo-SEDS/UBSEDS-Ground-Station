@@ -11,6 +11,9 @@ body {
 
 .content-container {
     height: 100%;
+}
+
+.ct-tele {
     display: grid;
     grid-template-areas:
         "overview rocket-model"
@@ -19,7 +22,6 @@ body {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: auto 2fr 2fr;
     gap: 10px;
-
 }
 
 .content-container>div.overview {

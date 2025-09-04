@@ -13,7 +13,7 @@ import os
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-port = '/dev/tty.usbserial-FT7212XY'
+port = "COM4"#'/dev/tty.usbserial-FT7212XY'
 serial_port = None
 
 # Connecting to serial port
@@ -68,6 +68,13 @@ def replay_log():
             socketio.emit("data", msg)
             i = (i + 1) % line_num
 
+def serialWrite(data):
+    print("Outgoing: " + str(data))
+    if serial_port == None:
+        print("Serial port not detected, failed to write.")
+    else:
+        serial_port.write(data)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -81,12 +88,10 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
-# sending infomation back through the serial port
-@socketio.on('testingPacket')
-def testingPacket(packet):
-    print(str(packet))
-    serial_port.write(packet.encode("utf-8"))
-    
+@socketio.on('RF')
+def rfPacket(packet):
+    print("RF: " + str(packet))
+    serialWrite(packet.encode("utf-8"))
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

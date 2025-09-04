@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../static/css/common.css">
     <link rel="stylesheet" href="../static/css/gauge.css">
     <link rel="stylesheet" href="../static/css/index.css">
-
+    <link rel="stylesheet" href="../static/css/controlpage.css">
     <script src="../static/js/three.min.js"></script>
     <script src="../static/js/OrbitControls.js"></script>
     <script src="../static/js/OBJLoader.js"></script>
@@ -23,7 +23,7 @@
         <img src=../static/img/logo.png class="logo noselect">
         <ul class="nav-items">
             <li>
-                <button class="nav-button">
+                <button class="nav-button" onclick="setPageContentTo(telemetryContainer)">
                     <i class="fa fa-bolt"></i>
                     Telemetry
                 </button>
@@ -35,7 +35,7 @@
                 </button>
             </li>
             <li>
-                <button class="nav-button">
+                <button class="nav-button" onclick="setPageContentTo(controlContainer)">
                     <i class="fa fa-gear"></i>
                     Control
                 </button>
@@ -65,8 +65,14 @@
     </div>
 
     <div class="page-content">
-        <div class="content-container" style="display:none;" id="control-container"></div>
-        <div class="content-container" id="telemetry-container">
+        <div class="content-container" style="display:none;" id="control-container">
+            <div class="control-panel shadow-light">
+                <button class="control-button" onclick="sendFillPacket()">Fill</button>
+                <button class="control-button" onclick="sendIgnitePacket()">Ignite</button>
+                <button class="control-button" onclick="sendValvePacket()">Valve</button>
+            </div>
+        </div>
+        <div class="content-container ct-tele" id="telemetry-container">
             <div class="data-section overview shadow-light">
                 <div class="data-section-content da-fb">
                     <div class="data-block">

@@ -1,16 +1,28 @@
+// const chartRemovalNum = 30; //Remove this many data points from the start of the chart if we go out of bounds
+
 function ChartObj(chart, data, timeData) {
   this.chart = chart;
   this.data = data;
   this.timeData = timeData;
+  this.maxDataPoints = 200;
 
-  this.updateChart = function(dataPoint, timeDataPoint) {
+  this.updateChart = function (dataPoint, timeDataPoint) {
     this.data.push(dataPoint);
     this.timeData.push(timeDataPoint);
 
+    // if (this.data.length > this.maxDataPoints) {
+    //   this.data = this.data.slice(chartRemovalNum, -1);
+    //   this.timeData = this.timeData.slice(chartRemovalNum, -1)
+    // }
+
     this.chart.data.labels = this.timeData;
     this.chart.data.datasets[0].data = this.data;
-    
+
     this.chart.update();
+  }
+
+  this.setMaxDataPoints = function (newMax) {
+    this.maxDataPoints = newMax;
   }
 }
 
@@ -32,6 +44,8 @@ function createChart(canvasId, label, yLabel) {
       }]
     },
     options: {
+      animation: false,
+
       scales: {
         x: {
           title: {

@@ -1,10 +1,20 @@
+const controlContainer = document.getElementById('control-container');
+const telemetryContainer = document.getElementById('telemetry-container');
+
+let currentContainer = telemetryContainer
+
+function setPageContentTo(newContainer) {
+  currentContainer.style.display = "none";
+  newContainer.style.display = "";
+  currentContainer = newContainer;
+}
+
 // ==== CHARTS ===== //
 let accChart = createChart("acceleration-chart", "Acceleration", "Acceleration (m/s^2)");
 let velChart = createChart("velocity-chart", "Velocity", "Velocity (m/s)");
 let altChart = createChart("altitude-chart", "Altitude", "Altitude (m)");
 
 // ==== THREE JS ROCKET MODEL ==== //
-
 let rocketModel;
 let prevPacketRotation = { x: 0, y: 0, z: 0 };
 let prevPacketTime = null;
@@ -88,34 +98,27 @@ socket.on('data', function (packet) {
   let sec = Math.round((packet.millis / 1000) * 100) / 100;
 
   accChart.updateChart(packet.acc, sec);
-
-  // accData.push(packet.acc);
-  // accTimeData.push();
-  // accChart.data.labels = accTimeData;
-  // accChart.data.datasets[0].data = accData;
-  // accChart.update();
-
   altChart.updateChart(packet.alt, sec);
-
-  // altData.push(packet.alt);
-  // altTimeData.push(Math.round((packet.millis / 1000) * 100) / 100);
-  // altChart.data.labels = altTimeData;
-  // altChart.data.datasets[0].data = altData;
-  // altChart.update();
-
   velChart.updateChart(packet.vel, sec);
-
-  // velData.push(packet.vel);
-  // velTimeData.push(Math.round((packet.millis / 1000) * 100) / 100);
-  // velChart.data.labels = velTimeData;
-  // velChart.data.datasets[0].data = velData;
-  // velChart.update();
-
-  // temperatureGauge.refresh(packet.temp);
-  // pressureGauge.refresh(Math.round((packet.pressure / 1000) * 100) / 100)
 
   prevPacketRotation.x = Math.trunc(packet.ang_vel_vector[0]) * Math.PI / 180;
   prevPacketRotation.y = Math.trunc(packet.ang_vel_vector[1]) * Math.PI / 180;
   prevPacketRotation.z = Math.trunc(packet.ang_vel_vector[2]) * Math.PI / 180;
   prevPacketTime = performance.now();
 });
+
+function sendRFPacket(packet) {
+  socket.emit('RF', packet);
+}
+
+function sendFillPacket() {
+  sendRFPacket('cmd,begfl');
+}
+
+function sendIgnitePacket() {
+  sendRFPacket('cmd,ign');
+}
+
+function sendValvePacket() {
+  sendRFPacket('cmd,vlv');
+}

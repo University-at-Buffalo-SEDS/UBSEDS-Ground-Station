@@ -87,7 +87,29 @@ class Parser:
             self.sync_idx += self.PKT_LEN
             raw_acc = [0] * 3
             raw_gyro = [0] * 3
-            (millis, apogee, alt, vel, acc, raw_alt, raw_pressure, raw_acc[0], raw_acc[1], raw_acc[2], raw_gyro[0], raw_gyro[1], raw_gyro[2], lat, lon, temp, batt_mv, vref_v, phase, _) = struct.unpack("<IffffffffffffffHHHBB", pkt_bytes)
+            
+            (
+                millis, 
+                apogee, 
+                alt, 
+                vel, 
+                acc, 
+                raw_alt, 
+                raw_pressure, 
+                raw_acc[0], 
+                raw_acc[1], 
+                raw_acc[2], 
+                raw_gyro[0], 
+                raw_gyro[1], 
+                raw_gyro[2], 
+                lat, 
+                lon, 
+                temp, 
+                batt_mv, 
+                vref_v, 
+                phase, 
+                _
+            ) = struct.unpack("<IffffffffffffffHHHBB", pkt_bytes)
 
             # Reset sync if we get an invalid packet
             if phase >= len(self.FLIGHT_PHASES) or \

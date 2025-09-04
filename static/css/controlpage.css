@@ -1,0 +1,16 @@
+.control-panel {
+    background-color: white;
+    padding: 20px;
+    display:flex;
+    gap:20px;
+}
+
+.control-button {
+    height:100px;
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    flex: 1;
+}
