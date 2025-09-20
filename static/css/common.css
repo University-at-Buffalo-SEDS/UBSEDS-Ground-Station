@@ -58,6 +58,7 @@
     font-weight: 700;
     margin: 0 0 10px 0;
     text-align: center;
+    white-space: nowrap;
 }
 
 .data-block>p {
@@ -66,9 +67,9 @@
     margin:0;
     padding: 10px;
     text-align: center;
+    white-space: nowrap;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11),
         0 2px 2px rgba(0, 0, 0, 0.11),
         0 4px 4px rgba(0, 0, 0, 0.11),
-        0 6px 8px rgba(0, 0, 0, 0.11),
         0 8px 16px rgba(0, 0, 0, 0.11);
 }

@@ -105,6 +105,16 @@ socket.on('data', function (packet) {
   prevPacketRotation.y = Math.trunc(packet.ang_vel_vector[1]) * Math.PI / 180;
   prevPacketRotation.z = Math.trunc(packet.ang_vel_vector[2]) * Math.PI / 180;
   prevPacketTime = performance.now();
+
+  // For the flight test
+  let v1 = packet.ft_v1;
+  let v2 = packet.ft_v2;
+  let adc_raw = packet.ft_adc;
+
+  document.getElementById("raw-pres-acd-data").innerText = adc_raw;
+  document.getElementById("voltage1-data").innerText = v1 + " V";
+  document.getElementById("voltage2-data").innerText = v2 + " V";
+  document.getElementById("status-stat").innerText = packet.status;
 });
 
 function sendRFPacket(packet) {
