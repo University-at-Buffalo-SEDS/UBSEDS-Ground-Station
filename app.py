@@ -49,7 +49,14 @@ def connect_fill_radio():
     print(f"Connecting to fill board radio on port {SERIAL_PORT_FILL_RADIO}")
     try:
         global fill_radio_serial_handle 
-        fill_radio_serial_handle = serial.Serial(SERIAL_PORT_FILL_RADIO, baudrate=FILL_RADIO_BAUD)
+        fill_radio_serial_handle = serial.Serial(
+            port=SERIAL_PORT_FILL_RADIO, 
+            baudrate=FILL_RADIO_BAUD,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=1
+        )
         return True
     except:
         print("Could not connect to fill radio, check available serial ports.")
@@ -59,7 +66,14 @@ def connect_av_radio():
     print(f"Connecting to avionics radio on port {SERIAL_PORT_AV_RADIO}")
     try:
         global av_radio_serial_handle 
-        av_radio_serial_handle = serial.Serial(SERIAL_PORT_AV_RADIO, baudrate=AV_RADIO_BAUD)
+        av_radio_serial_handle = serial.Serial(
+            port=SERIAL_PORT_AV_RADIO, 
+            baudrate=AV_RADIO_BAUD,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=1
+        )
         current_data_handle["status"] = "Online"
         return True
     except:
