@@ -66,26 +66,30 @@
 
     <div class="page-content">
         <div class="content-container" style="display:none;" id="control-container">
-            <div class="control-panel shadow-light">
-                <button class="control-button" onclick="sendFillPacket()">Fill</button>
-                <button class="control-button" onclick="sendIgnitePacket()">Ignite</button>
-                <button class="control-button" onclick="sendValvePacket()">Valve</button>
-            </div>
+            <p>Nothing on this page go back</p>
         </div>
         <div class="content-container ct-tele" id="telemetry-container">
             <div class="data-section overview shadow-light">
                 <div class="data-section-content da-fb">
                     <div class="data-block">
                         <h1 class="data-block-title">FT V1</h1>
-                        <p class="data-block-value" id = "voltage1-data">7.7 V</p>
+                        <p class="data-block-value" id="voltage1-data">7.7 V</p>
                     </div>
                     <div class="data-block">
                         <h1 class="data-block-title">FT V2</h1>
-                        <p class="data-block-value" id = "voltage2-data">7.7 V</p>
+                        <p class="data-block-value" id="voltage2-data">7.7 V</p>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">FT V2</h1>
+                        <p class="data-block-value" id="voltage2-data">7.7 V</p>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">FT V2</h1>
+                        <p class="data-block-value" id="voltage2-data">7.7 V</p>
                     </div>
                     <div class="data-block">
                         <h1 class="data-block-title">Raw Pres ADC</h1>
-                        <p class="data-block-value" id = "raw-pres-acd-data">100</p>
+                        <p class="data-block-value" id="raw-pres-acd-data">100</p>
                     </div>
                     <div class="data-block">
                         <div class="gauge-container">
@@ -104,29 +108,40 @@
                             <div class="gauge-center"></div>
                             <div class="gauge-fill"></div>
                             <div class="gauge-data">
-                                <h1 id = "pressure-gauge-data">101 kPA</h1>
+                                <h1 id="pressure-gauge-data">101 kPA</h1>
                                 Pressure
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="data-section overview-2 shadow-light">
+                <div class="data-section-content da-fb">
+                    <div class="data-block">
+                        <h1 class="data-block-title">Status</h1>
+                        <p class="data-block-value" id="raw-pres-acd-data">Online</p>
+                    </div>
+                    <div class="data-block">
+                        <h1 class="data-block-title">Phase</h1>
+                        <p class="data-block-value" id="raw-pres-acd-data">Intercourse</p>
+                    </div>
+                </div>
+            </div>
+            <div class="data-section buttons shadow-light">
+                <div class="control-panel">
+                    <button class="control-button" onclick="sendNitrogenPacket()">Nitrogen</button>
+                    <button class="control-button" onclick="sendNitrousPacket()">Nitrous</button>
+                    <button class="control-button" onclick="sendIgniterPacket()">Igniter</button>
+                    <button class="control-button" onclick="sendValvePacket()">Valve</button>
+                    <button class="control-button" onclick="onFireButton()" id="fire-button">FIRE</button>
+                </div>
+            </div>
             <div class="data-section charts da-fb shadow-light">
                 <div class="chart-container shadow-light">
-                    <canvas id="acceleration-chart"></canvas>
+                    <canvas id="tank-loadcell-chart"></canvas>
                 </div>
                 <div class="chart-container shadow-light">
-                    <canvas id="velocity-chart"></canvas>
-                </div>
-            </div>
-            <div class="data-section rocket-model da-fb shadow-light">
-                <div class="chart-container shadow-light">
-                    <div id="rocket-model"></div>
-                </div>
-            </div>
-            <div class="data-section alt-chart da-fb shadow-light">
-                <div class="chart-container shadow-light">
-                    <canvas id="altitude-chart"></canvas>
+                    <canvas id="av-pressure-chart"></canvas>
                 </div>
             </div>
         </div>

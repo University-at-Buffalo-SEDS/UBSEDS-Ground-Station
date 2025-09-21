@@ -15,12 +15,10 @@ body {
 
 .ct-tele {
     display: grid;
-    grid-template-areas:
-        "overview rocket-model"
-        "charts rocket-model"
-        "alt-chart rocket-model";
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto 2fr 2fr;
+    grid-template:
+        "overview   overview overview" auto
+        "buttons overview-2 overview-2" auto
+        "charts    charts charts" 1fr / 4fr 1fr 1fr;
     gap: 10px;
 }
 
@@ -28,8 +26,17 @@ body {
     grid-area: overview;
 }
 
+.content-container>div.overview-2 {
+    grid-area: overview-2;
+}
+
+
 .content-container>div.charts {
     grid-area: charts;
+}
+
+.content-container>div.buttons {
+    grid-area: buttons;
 }
 
 .content-container>div.rocket-model {

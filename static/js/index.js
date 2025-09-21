@@ -10,9 +10,13 @@ function setPageContentTo(newContainer) {
 }
 
 // ==== CHARTS ===== //
-let accChart = createChart("acceleration-chart", "Acceleration", "Acceleration (m/s^2)");
-let velChart = createChart("velocity-chart", "Velocity", "Velocity (m/s)");
-let altChart = createChart("altitude-chart", "Altitude", "Altitude (m)");
+// let accChart = createChart("acceleration-chart", "Acceleration", "Acceleration (m/s^2)");
+// let velChart = createChart("velocity-chart", "Velocity", "Velocity (m/s)");
+// let altChart = createChart("altitude-chart", "Altitude", "Altitude (m)");
+
+let pressureChart = createChart("av-pressure-chart", "Pressure", "Pressure (no units)");
+let tankLoadcellChart = createChart("tank-loadcell-chart", "Loadcell", "Loadcell (no units)");
+
 
 // ==== THREE JS ROCKET MODEL ==== //
 let rocketModel;
@@ -97,9 +101,9 @@ socket.on('data', function (packet) {
 
   let sec = Math.round((packet.millis / 1000) * 100) / 100;
 
-  accChart.updateChart(packet.acc, sec);
-  altChart.updateChart(packet.alt, sec);
-  velChart.updateChart(packet.vel, sec);
+  // accChart.updateChart(packet.acc, sec);
+  // altChart.updateChart(packet.alt, sec);
+  // velChart.updateChart(packet.vel, sec);
 
   prevPacketRotation.x = Math.trunc(packet.ang_vel_vector[0]) * Math.PI / 180;
   prevPacketRotation.y = Math.trunc(packet.ang_vel_vector[1]) * Math.PI / 180;
@@ -109,26 +113,58 @@ socket.on('data', function (packet) {
   // For the flight test
   let v1 = packet.ft_v1;
   let v2 = packet.ft_v2;
-  let adc_raw = packet.ft_adc;
+  let lc_acd_raw = packet.ft_lc_adc;
+  let pt_acd_raw = packet.ft_pt_adc;
 
-  document.getElementById("raw-pres-acd-data").innerText = adc_raw;
+  tankLoadcellChart.updateChart(lc_acd_raw, sec);
+  pressureChart.updateChart(pt_acd_raw, sec);
+
+
+  document.getElementById("raw-pres-acd-data").innerText = lc_acd_raw;
   document.getElementById("voltage1-data").innerText = v1 + " V";
   document.getElementById("voltage2-data").innerText = v2 + " V";
   document.getElementById("status-stat").innerText = packet.status;
 });
 
-function sendRFPacket(packet) {
-  socket.emit('RF', packet);
+function sendRFFillPacket(packet) {
+  socket.emit('RF-Fill', packet);
 }
 
-function sendFillPacket() {
-  sendRFPacket('cmd,begfl');
+function sendRFAvPacket(packet) {
+  socket.emit("RF-Av",packet);
 }
 
-function sendIgnitePacket() {
-  sendRFPacket('cmd,ign');
+function sendNitrousPacket() {
+  sendRFFillPacket('O');
+}
+
+function sendNitrogenPacket() {
+  sendRFFillPacket('N');
+}
+
+function sendIgniterPacket() {
+  sendRFFillPacket('I');
 }
 
 function sendValvePacket() {
-  sendRFPacket('cmd,vlv');
+  sendRFAvPacket('V');
+}
+
+let fireButton = document.getElementById("fire-button");
+function onFireButton() {
+  fireButton.innerText = "IGNITING...";
+  sendIgniterPacket();
+  setTimeout(()=>{
+    i=1;
+    fireButton.innerText = "VALVE IN " + (3);
+    var x = setInterval(()=>{
+      if (i==3) clearInterval(x);
+      fireButton.innerText = "VALVE IN " + (3-i);
+      i++;
+    },1000);
+    setTimeout(()=>{
+      sendValvePacket();
+      console.log("END FIRE")
+    }, 3000);
+  }, 2000)
 }

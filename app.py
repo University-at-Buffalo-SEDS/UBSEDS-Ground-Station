@@ -15,7 +15,7 @@ socketio = SocketIO(app)
 parser = Parser() # parser class to go from bytes to JSON
 
 SERIAL_PORT_FILL_RADIO = "COM4"
-SERIAL_PORT_AV_RADIO    = "COM3"
+SERIAL_PORT_AV_RADIO    = "COM5"
 
 FILL_RADIO_BAUD = 57600
 AV_RADIO_BAUD = FILL_RADIO_BAUD
@@ -40,7 +40,8 @@ current_data_handle = {
         "vref": 0,
         "ft_v1": -1,
         "ft_v2": -1,
-        "ft_adc": -1,
+        "ft_lc_adc": -1,
+        "ft_pt_adc": -1,
         "status": "Offline"
 }
 
@@ -69,21 +70,34 @@ def create_log_filename(deviceName):
     filename = datetime.now().strftime("%Y%m%dT%H%M%S.log")
     return os.path.join('logs/' + filename + "-" + deviceName)
 
-FILL_RADIO_PACKET_LEN = 5
-def read_thread_fill_radio():
+FILL_RADIO_PACKET_LEN = 8
+def read_thread_fill_radio(): #0x02 | adc1 (2) | adc2 (2) | 0x00 | 0x00| \n
     with open(create_log_filename("fill"), "a",encoding="utf-8") as log_file:
         while True:
-            buf = fill_radio_serial_handle.read(FILL_RADIO_PACKET_LEN)
+            buf = fill_radio_serial_handle.readline()
+            if len(buf) < 8: continue
             if buf[0] != 0x02: print("Invalid header from fill radio")
-            print(buf[1:].decode("utf-8")) # Just dump what we get from fill radio
+            #print(buf[1:].decode("utf-8")) # Just dump what we get from fill radio
+            data_bytes = buf[1:] # 6 bytes of data + nl
 
-AV_RADIO_PACKET_LEN = 7
-def read_thread_av_radio():
-    with open(create_log_filename("avionics"), "a",encoding="utf-8") as log_file:
+            adc1 = data_bytes[0] << 8 | data_bytes[1]
+            adc2  = data_bytes[2] << 8 | data_bytes[3]
+
+            print("\n==== FILL BOARD TELEMETRY ====")
+            print("ADC1: " + str(adc1))
+            print("ADC2: "  + str(adc2))           
+            print("==== END ====\n") #newline
+
+            current_data_handle["ft_lc_adc"] = adc1
+
+AV_RADIO_PACKET_LEN = 8
+def read_thread_av_radio(): # 0x01 | adc (2) | v1 (2) | v2(2) | \n
+    with open(create_log_filename("avionics"), "a", encoding="utf-8") as log_file:
         while True:
-            buf = fill_radio_serial_handle.read(AV_RADIO_PACKET_LEN)
+            buf = av_radio_serial_handle.readline() # Read up until the newline character
+            if len(buf) < 8: continue
             if buf[0] != 0x01: print("Invalid header from avionics radio")
-            data_bytes = buf[1:] # 6 bytes of data
+            data_bytes = buf[1:] # 6 bytes of data + nl
 
             # txData[0] = (raw >> 8) & 0xFF;       MSB of adc
             # txData[1] = raw & 0xFF;              LSB of adc
@@ -104,7 +118,7 @@ def read_thread_av_radio():
 
             current_data_handle["ft_v1"] = v1
             current_data_handle["ft_v2"] = v2
-            current_data_handle["ft_adc"] = adc
+            current_data_handle["ft_pt_adc"] = adc
 
 def socket_data_thread():
     while True:
@@ -117,6 +131,13 @@ def send_fill_board_command(data):
         print("No connection to fill board radio.")
     else:
         fill_radio_serial_handle.write(data)
+
+def send_av_command(data):
+    print("Sending avionics command: ")
+    if av_radio_serial_handle == None:
+        print("No connection to avionics radio.")
+    else:
+        av_radio_serial_handle.write(data)
 
 @app.route('/')
 def index():
@@ -143,10 +164,23 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
-@socketio.on('RF')
+@socketio.on('RF-Fill')
 def rfPacket(packet):
-    print("RF: " + str(packet))
+    print("Fill board command: " + str(packet))
     send_fill_board_command(packet.encode("utf-8"))
+
+@socketio.on('RF-Av')
+def rfPacket(packet):
+    print("Av bay command: " + str(packet))
+    send_av_command(packet.encode("utf-8"))
+
+# function sendRFFillPacket(packet) {
+#   socket.emit('RF-Fill', packet);
+# }
+
+# function sendRFAvPacket(packet) {
+#   socket.emit("RF-Av",packet);
+# }
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

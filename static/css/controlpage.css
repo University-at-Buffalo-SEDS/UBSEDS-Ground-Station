@@ -1,12 +1,12 @@
 .control-panel {
     background-color: white;
-    padding: 20px;
     display:flex;
+    flex-direction: row;
     gap:20px;
+    height:100%;
 }
 
-.control-button {
-    height:100px;
+.control-buttson {
     font-family: 'Roboto', sans-serif;
     text-align: left;
     text-transform: uppercase;
